@@ -3,8 +3,17 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { refs } from '../main';
 
-export function createMarkUp(array) {
-  const markup = array
+let gallery;
+
+export function createLightbox() {
+  if (!gallery) {
+    gallery = new SimpleLightbox('.gallery a');
+  }
+  gallery.refresh();
+}
+
+export function createGallery(arrayImages) {
+  const markup = arrayImages
     .map(
       item =>
         `<li class="img-box">
@@ -38,19 +47,7 @@ export function createMarkUp(array) {
     )
     .join('');
 
-  refs.galleryList.innerHTML = markup;
-}
-
-export const renderGalleryList = array => {
-  clearMarkUp();
-  createMarkUp(array);
-  createLightbox();
-};
-
-const gallery = new SimpleLightbox('.gallery a');
-
-export function createLightbox() {
-  gallery.refresh();
+  return markup;
 }
 
 export function hideLoader() {
@@ -61,4 +58,12 @@ export function showLoader() {
 }
 export function clearMarkUp() {
   refs.galleryList.innerHTML = '';
+}
+
+export function showLoadMoreButton() {
+  refs.moreBtn.classList.remove('js-hidden');
+}
+
+export function hideLoadMoreButton() {
+  refs.moreBtn.classList.add('js-hidden');
 }
