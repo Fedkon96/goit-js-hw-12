@@ -90,7 +90,7 @@ function smoothScroll() {
     const gap =
       parseInt(window.getComputedStyle(galleryItem.parentElement).gap) || 0;
 
-    const scrollHeight = cardHeight * 2 + gap;
+    const scrollHeight = cardHeight * 3 + gap;
 
     window.scrollBy({
       top: scrollHeight,
