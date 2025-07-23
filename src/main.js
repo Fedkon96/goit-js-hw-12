@@ -87,8 +87,13 @@ function smoothScroll() {
   if (galleryItem) {
     const cardHeight = galleryItem.getBoundingClientRect().height;
 
+    const gap =
+      parseInt(window.getComputedStyle(galleryItem.parentElement).gap) || 0;
+
+    const scrollHeight = cardHeight * 2 + gap;
+
     window.scrollBy({
-      top: cardHeight * 2,
+      top: scrollHeight,
       behavior: 'smooth',
     });
   }
