@@ -31,7 +31,6 @@ async function onSubmit(event) {
   page = 1;
   clearMarkUp();
   showLoader();
-
   hideLoadMoreButton();
 
   searchQuery = event.target.elements['search-text'].value.trim();
@@ -57,10 +56,10 @@ async function onSubmit(event) {
       });
       return;
     }
-    //   !!!!!!!!!!!!!!!!1
+
     createGallery(getResponse.hits, page);
     createLightbox();
-    // !!!!!!!!!!!!!!!!!!11
+
     iziToast.info({
       title: 'Результат пошуку:',
       message: `знайдено ${getResponse.totalHits} фотографій!`,
@@ -103,7 +102,7 @@ function smoothScroll() {
 
 async function onClick(event) {
   event.preventDefault();
-  page++; // Інкрементуємо сторінку перед запитом
+  page++;
 
   showLoader();
   hideLoadMoreButton();
@@ -111,7 +110,6 @@ async function onClick(event) {
   try {
     const getResponse = await getImagesByQuery(searchQuery, page, perPage);
 
-    // Якщо зображень немає
     if (getResponse.hits.length === 0) {
       iziToast.info({
         title: 'Увага',
@@ -119,14 +117,13 @@ async function onClick(event) {
         position: 'center',
       });
       hideLoadMoreButton();
+      hideLoader();
       return;
     }
 
-    // Додаємо тільки нові зображення
     createGallery(getResponse.hits, page);
-    createLightbox(); // Оновлюємо lightbox
+    createLightbox();
 
-    // Перевірка останньої сторінки
     const lastPage = Math.ceil(getResponse.totalHits / perPage);
     if (page >= lastPage) {
       refs.loadMoreBtn.classList.add('is-hidden');
@@ -139,7 +136,6 @@ async function onClick(event) {
       showLoadMoreButton();
     }
 
-    // Плавна прокрутка
     smoothScroll();
   } catch (error) {
     console.error('Помилка завантаження:', error);
@@ -152,66 +148,6 @@ async function onClick(event) {
     hideLoader();
   }
 }
-
-// async function onClick(event) {
-//   event.preventDefault();
-//   const currentScrollPosition = window.scrollY;
-//   //   refs.galleryList.classList.add('is-hidden');
-//   //   refs.loadMoreBtn.classList.add('is-hidden');
-//   page++;
-
-//   showLoader();
-//   refs.loadMoreBtn.classList.add('is-hidden');
-
-//   try {
-//     const getResponse = await getImagesByQuery(searchQuery, page, perPage);
-
-//     if (getResponse.hits.length === 0) {
-//       iziToast.info({
-//         title: 'Увага',
-//         message: 'Більше зображень немає',
-//         position: 'center',
-//       });
-//       return;
-//     }
-//     // !!!!!!!!!!!!!1
-//     createGallery(getResponse.hits, page);
-//     // !!!!!!!!!!!!!!!!!!1
-//     window.requestAnimationFrame(() => {
-//       window.scrollTo({
-//         top: currentScrollPosition,
-//         behavior: 'instant',
-//       });
-
-//       smoothScroll();
-//     });
-
-//     const lastPage = Math.ceil(getResponse.totalHits / perPage);
-
-//     refs.loadMoreBtn.classList.remove('is-hidden');
-
-//     if (lastPage === page) {
-//       refs.loadMoreBtn.classList.add('is-hidden');
-//       refs.loadMoreBtn.removeEventListener('click', onClick);
-
-//       iziToast.info({
-//         title: 'Увага',
-//         message: 'Остання сторінка!',
-//         position: 'center',
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     iziToast.error({
-//       title: 'Помилка!',
-//       message: 'Не вдалося завантажити більше зображень',
-//       position: 'center',
-//     });
-//   } finally {
-//     hideLoader();
-//     refs.galleryList.classList.remove('is-hidden');
-//   }
-// }
 
 refs.form.addEventListener('submit', onSubmit);
 refs.loadMoreBtn.addEventListener('click', onClick);

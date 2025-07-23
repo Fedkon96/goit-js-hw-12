@@ -48,18 +48,6 @@ export function createGallery(arrayImages, page) {
         </li>`
     )
     .join('');
-  console.log(markup);
-  // refs.galleryList.insertAdjacentHTML('beforeend', markup);
-
-  //   refs.galleryList.innerHTML = markup;
-
-  //   if (page > 1) {
-  //     refs.galleryList.insertAdjacentHTML('beforeend', markup);
-  //     return;
-  //   } else {
-  //     refs.galleryList.innerHTML = markup;
-  //     return;
-  //   }
 
   if (page === 1) {
     refs.galleryList.innerHTML = markup;
