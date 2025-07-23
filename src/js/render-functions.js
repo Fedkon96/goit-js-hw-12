@@ -3,6 +3,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { refs } from '../main';
 
+import { page } from '../main';
+
 let gallery;
 
 export function createLightbox() {
@@ -12,7 +14,7 @@ export function createLightbox() {
   gallery.refresh();
 }
 
-export function createGallery(arrayImages) {
+export function createGallery(arrayImages, page) {
   const markup = arrayImages
     .map(
       item =>
@@ -46,8 +48,24 @@ export function createGallery(arrayImages) {
         </li>`
     )
     .join('');
+  console.log(markup);
+  // refs.galleryList.insertAdjacentHTML('beforeend', markup);
 
-  return markup;
+  //   refs.galleryList.innerHTML = markup;
+
+  //   if (page > 1) {
+  //     refs.galleryList.insertAdjacentHTML('beforeend', markup);
+  //     return;
+  //   } else {
+  //     refs.galleryList.innerHTML = markup;
+  //     return;
+  //   }
+
+  if (page === 1) {
+    refs.galleryList.innerHTML = markup;
+  } else {
+    refs.galleryList.insertAdjacentHTML('beforeend', markup);
+  }
 }
 
 export function hideLoader() {
@@ -61,9 +79,9 @@ export function clearMarkUp() {
 }
 
 export function showLoadMoreButton() {
-  refs.moreBtn.classList.remove('js-hidden');
+  refs.loadMoreBtn.classList.remove('is-hidden');
 }
 
 export function hideLoadMoreButton() {
-  refs.moreBtn.classList.add('js-hidden');
+  refs.loadMoreBtn.classList.add('is-hidden');
 }
